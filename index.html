@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Happy Birthday Mila Salsa ❤️ | Romantic Surprise</title>
   
-  <!-- Google Fonts & CDN -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -26,7 +25,6 @@
       min-height: 100vh;
     }
 
-    /* Background gradient neon pink-black */
     .bg-gradient {
       position: fixed;
       inset: 0;
@@ -44,7 +42,6 @@
       pointer-events: none;
     }
 
-    /* Glow orbs */
     .glow-orb {
       position: fixed;
       border-radius: 50%;
@@ -67,7 +64,6 @@
       justify-content: center;
       align-items: center;
       z-index: 10000;
-      transition: all 0.5s ease;
     }
     .password-box {
       background: rgba(255, 255, 255, 0.05);
@@ -129,7 +125,7 @@
       animation: twinkle 2s infinite ease-in-out;
     }
 
-    /* Page container - cinematic transitions */
+    /* Page transition */
     .page {
       min-height: 100vh;
       display: flex;
@@ -140,15 +136,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-    .page-hidden {
-      display: none !important;
-    }
-    .page-transition-out {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-
-    /* Glassmorphism card */
     .glass-card {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(15px);
@@ -171,7 +158,7 @@
       text-shadow: 0 0 8px #ff4fa3, 0 0 18px #ff1493;
     }
 
-    /* Countdown boxes */
+    /* Countdown */
     .countdown-container {
       display: flex;
       justify-content: center;
@@ -193,22 +180,29 @@
       font-weight: bold;
       color: #ff4fa3;
     }
-    .time-label {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-    }
 
-    /* Gallery swiper */
+    /* Gallery - Portrait mode */
     .swiper {
       width: 100%;
       border-radius: 32px;
       overflow: hidden;
     }
-    .swiper-slide img {
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      background: transparent;
+    }
+    .gallery-img {
       width: 100%;
-      height: 400px;
+      height: auto;
+      aspect-ratio: 3 / 4; /* Portrait ratio 3:4, tinggi lebih besar */
       object-fit: cover;
       border-radius: 32px;
+      box-shadow: 0 0 20px rgba(255,79,163,0.3);
+      transition: transform 0.3s;
+    }
+    .gallery-img:hover {
+      transform: scale(1.02);
     }
     .swiper-button-next, .swiper-button-prev {
       color: #ff4fa3 !important;
@@ -233,7 +227,7 @@
       box-shadow: 0 0 25px #ff4fa3;
     }
 
-    /* Spotify-style music widget */
+    /* Spotify-style music player */
     .spotify-player {
       background: rgba(0,0,0,0.8);
       border-radius: 20px;
@@ -249,26 +243,12 @@
       height: 180px;
       border-radius: 20px;
       margin: 0 auto 15px;
-      background: #ff4fa3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
       overflow: hidden;
     }
     .album-art img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-    .song-title {
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-    .artist-name {
-      font-size: 0.9rem;
-      color: #ccc;
-      margin-bottom: 15px;
     }
     .progress-container {
       width: 100%;
@@ -283,13 +263,6 @@
       height: 100%;
       background: #ff4fa3;
       border-radius: 4px;
-      position: relative;
-    }
-    .time-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      margin-top: 5px;
     }
     .controls {
       display: flex;
@@ -303,11 +276,6 @@
       color: white;
       font-size: 1.8rem;
       cursor: pointer;
-      transition: 0.2s;
-    }
-    .controls button:hover {
-      transform: scale(1.1);
-      color: #ff4fa3;
     }
     .equalizer-bars {
       display: flex;
@@ -388,11 +356,9 @@
       box-shadow: 0 0 8px #ff4fa3;
     }
 
-    /* Responsive */
     @media (max-width: 680px) {
       .glass-card { padding: 30px 20px; }
       .time-number { font-size: 2rem; }
-      .swiper-slide img { height: 300px; }
       .album-art { width: 140px; height: 140px; }
     }
   </style>
@@ -404,7 +370,6 @@
 <div class="glow-orb glow2"></div>
 <div class="glow-orb glow3"></div>
 
-<!-- Password Screen -->
 <div id="passwordScreen">
   <div class="password-box">
     <h1>✨ Secret Love Letter ✨</h1>
@@ -417,28 +382,16 @@
 <main id="app"></main>
 
 <script>
-  // ---------- PAGES DATA (QR dihapus) ----------
   const pages = [
-    { id: 'hero', title: 'Hero' },
-    { id: 'countdown', title: 'Countdown' },
-    { id: 'music', title: 'Music' },
-    { id: 'gallery', title: 'Gallery' },
-    { id: 'loveletter', title: 'Love Letter' },
-    { id: 'reasons', title: 'Reasons' },
-    { id: 'final', title: 'Final' }
+    { id: 'hero' }, { id: 'countdown' }, { id: 'music' },
+    { id: 'gallery' }, { id: 'loveletter' }, { id: 'reasons' }, { id: 'final' }
   ];
   let currentIndex = 0;
   let swiperGallery = null;
-
-  // Audio elements
   let audioElement = null;
-  let isPlaying = false;
   let progressInterval = null;
-
-  // Target birthday date (25 Mei 2026)
   const birthdayDate = new Date(2026, 4, 25, 0, 0, 0);
 
-  // HTML templates for each page
   const templates = {
     hero: `
       <div class="glass-card">
@@ -453,7 +406,7 @@
     countdown: `
       <div class="glass-card">
         <h2 class="neon-text">✨ Countdown to Your Birthday ✨</h2>
-        <div class="countdown-container" id="countdownBox">
+        <div class="countdown-container">
           <div class="time-box"><div class="time-number" id="days">0</div><div class="time-label">Hari</div></div>
           <div class="time-box"><div class="time-number" id="hours">0</div><div class="time-label">Jam</div></div>
           <div class="time-box"><div class="time-number" id="minutes">0</div><div class="time-label">Menit</div></div>
@@ -465,29 +418,15 @@
     music: `
       <div class="glass-card">
         <h2 class="neon-text">🎵 Our Song 🎵</h2>
-        <div class="spotify-player" id="spotifyPlayer">
-          <div class="album-art">
-            <img src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="Perfect Album">
-          </div>
+        <div class="spotify-player">
+          <div class="album-art"><img src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="Perfect"></div>
           <div class="song-title">Perfect</div>
           <div class="artist-name">Ed Sheeran</div>
-          <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="musicProgressBar"></div>
-          </div>
-          <div class="time-info">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
-          </div>
-          <div class="controls">
-            <button id="prevBtnMusic">⏮️</button>
-            <button id="playPauseBtnMusic">▶️</button>
-            <button id="nextBtnMusic">⏭️</button>
-          </div>
-          <div class="equalizer-bars" id="equalizer">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
+          <div class="progress-container" id="progressContainer"><div class="progress-bar" id="musicProgressBar"></div></div>
+          <div class="time-info" style="display:flex; justify-content:space-between; font-size:0.7rem;"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+          <div class="controls"><button id="prevBtnMusic">⏮️</button><button id="playPauseBtnMusic">▶️</button><button id="nextBtnMusic">⏭️</button></div>
+          <div class="equalizer-bars" id="equalizer"><span></span><span></span><span></span><span></span><span></span></div>
         </div>
-        <p style="margin-top: 10px;">❤️ Lagu spesial untukmu ❤️</p>
       </div>
     `,
     gallery: `
@@ -495,9 +434,9 @@
         <h2 class="neon-text">📸 Beautiful Memories</h2>
         <div class="swiper mySwiper" style="margin-top: 20px;">
           <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="https://placehold.co/800x600/ff4fa3/ffffff?text=Memory+1" alt="memori1"></div>
-            <div class="swiper-slide"><img src="https://placehold.co/800x600/ff1493/ffffff?text=Memory+2" alt="memori2"></div>
-            <div class="swiper-slide"><img src="https://placehold.co/800x600/b87cff/ffffff?text=Memory+3" alt="memori3"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff4fa3/ffffff?text=Memory+1" alt="memori1"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff1493/ffffff?text=Memory+2" alt="memori2"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/b87cff/ffffff?text=Memory+3" alt="memori3"></div>
           </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
@@ -512,11 +451,7 @@
           <div style="position:absolute; bottom:10px; left:0; right:0; text-align:center; color:white;">✉️</div>
         </div>
         <div id="letterContent" style="display:none; background:white; color:#222; border-radius:20px; padding:20px; text-align:left; max-height:300px; overflow-y:auto;">
-          <p>💖 Untuk Mila Salsa tercinta,<br><br>
-          Selamat ulang tahun sayang! 🎂 Kamu adalah hadiah terindah dalam hidupku. Setiap hari bersamamu adalah petualangan yang tak pernah membosankan. Senyummu adalah sinar mentari yang menerangi hariku.<br><br>
-          Aku bersyukur memiliki seseorang sepertimu yang selalu sabar, baik, dan penuh cinta. Semoga di usia baru ini semua impianmu tercapai, dan aku akan selalu ada di sampingmu, mendukungmu, mencintaimu.<br><br>
-          Terima kasih telah menjadi rumahku. I love you more than words can say. ❤️<br><br>
-          Forever yours,<br> [Your Name]</p>
+          <p>💖 Untuk Mila Salsa tercinta,<br><br>Selamat ulang tahun sayang! 🎂 Kamu adalah hadiah terindah dalam hidupku... <br><br>I love you more than words can say. ❤️</p>
         </div>
       </div>
     `,
@@ -524,46 +459,29 @@
       <div class="glass-card">
         <h2 class="neon-text">💖 Reasons I Love You</h2>
         <div class="reasons-grid">
-          <div class="reason-card">🌸 Kamu selalu ada untuk aku</div>
-          <div class="reason-card">😊 Kamu bikin aku bahagia</div>
-          <div class="reason-card">👸 Kamu cantik luar dalam</div>
-          <div class="reason-card">🏠 Kamu rumah terbaikku</div>
-          <div class="reason-card">👭 Kamu sahabat terbaikku</div>
-          <div class="reason-card">🌟 Kamu membuat hidupku berarti</div>
-          <div class="reason-card">💪 Kamu inspirasiku</div>
-          <div class="reason-card">💭 Kamu selalu di pikiranku</div>
+          <div class="reason-card">🌸 Kamu selalu ada untuk aku</div><div class="reason-card">😊 Kamu bikin aku bahagia</div>
+          <div class="reason-card">👸 Kamu cantik luar dalam</div><div class="reason-card">🏠 Kamu rumah terbaikku</div>
+          <div class="reason-card">👭 Kamu sahabat terbaikku</div><div class="reason-card">🌟 Kamu membuat hidupku berarti</div>
+          <div class="reason-card">💪 Kamu inspirasiku</div><div class="reason-card">💭 Kamu selalu di pikiranku</div>
         </div>
       </div>
     `,
     final: `
       <div class="glass-card">
         <h2 class="neon-text">Thank you for being born<br>and being part of my life ❤️</h2>
-        <div style="margin:30px 0;">
-          <div class="bunny">🐰✨💖</div>
-        </div>
+        <div class="bunny">🐰✨💖</div>
         <button id="replayBtn" style="background: linear-gradient(135deg,#ff4fa3,#ff1493); border:none; padding:12px 32px; border-radius:40px; color:white; cursor:pointer;">Replay Our Story 🔄</button>
       </div>
     `
   };
 
-  // Render page
   function renderPage(index) {
     const app = document.getElementById('app');
-    if (!app) return;
     const pageId = pages[index].id;
-    const html = templates[pageId];
-    app.innerHTML = html;
-    
-    if (pageId === 'hero') {
-      const nextBtn = document.querySelector('.next-btn');
-      if(nextBtn) nextBtn.onclick = () => changePage(1);
-    }
-    if (pageId === 'countdown') {
-      startCountdown();
-    }
-    if (pageId === 'music') {
-      initMusicPlayer();
-    }
+    app.innerHTML = templates[pageId];
+    if (pageId === 'hero') document.querySelector('.next-btn')?.addEventListener('click', () => changePage(1));
+    if (pageId === 'countdown') startCountdown();
+    if (pageId === 'music') initMusicPlayer();
     if (pageId === 'gallery') {
       if (swiperGallery) swiperGallery.destroy(true, true);
       swiperGallery = new Swiper('.mySwiper', {
@@ -573,213 +491,99 @@
       });
     }
     if (pageId === 'loveletter') {
-      const envelope = document.getElementById('envelope');
-      const letter = document.getElementById('letterContent');
-      if(envelope) envelope.onclick = () => {
-        envelope.style.display = 'none';
-        letter.style.display = 'block';
-        letter.style.animation = 'fadeUp 0.5s ease';
-      };
-    }
-    if (pageId === 'final') {
-      document.getElementById('replayBtn')?.addEventListener('click', () => {
-        currentIndex = 0;
-        renderPage(0);
-        updateNavAndProgress();
+      document.getElementById('envelope')?.addEventListener('click', () => {
+        document.getElementById('envelope').style.display = 'none';
+        document.getElementById('letterContent').style.display = 'block';
       });
     }
+    if (pageId === 'final') document.getElementById('replayBtn')?.addEventListener('click', () => { currentIndex = 0; renderPage(0); updateNavAndProgress(); });
     updateNavAndProgress();
   }
 
-  // Countdown logic
-  let countdownInterval;
   function startCountdown() {
-    if(countdownInterval) clearInterval(countdownInterval);
-    countdownInterval = setInterval(() => {
-      const now = new Date();
-      const diff = birthdayDate - now;
-      if(diff <= 0) {
-        document.getElementById('days').innerText = '0';
-        document.getElementById('hours').innerText = '0';
-        document.getElementById('minutes').innerText = '0';
-        document.getElementById('seconds').innerText = '0';
-        clearInterval(countdownInterval);
-      } else {
-        const days = Math.floor(diff / (1000*60*60*24));
-        const hours = Math.floor((diff % (86400000)) / (3600000));
-        const mins = Math.floor((diff % 3600000) / 60000);
-        const secs = Math.floor((diff % 60000) / 1000);
-        document.getElementById('days').innerText = days;
-        document.getElementById('hours').innerText = hours;
-        document.getElementById('minutes').innerText = mins;
-        document.getElementById('seconds').innerText = secs;
-      }
-    }, 1000);
+    const update = () => {
+      const diff = birthdayDate - new Date();
+      if (diff <= 0) { clearInterval(countdownInterval); return; }
+      document.getElementById('days').innerText = Math.floor(diff / (1000*60*60*24));
+      document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+      document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+      document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
+    };
+    update();
+    const countdownInterval = setInterval(update, 1000);
   }
 
-  // Music player (Spotify style) with autoplay after unlock
   function initMusicPlayer() {
-    // Use a public MP3 URL (replace with your own if needed)
-    const audioUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // contoh, ganti dengan file Perfect - Ed Sheeran jika punya
     if (!audioElement) {
-      audioElement = new Audio(audioUrl);
+      audioElement = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
       audioElement.loop = true;
-      audioElement.volume = 0.6;
     }
-    
-    const playPauseBtn = document.getElementById('playPauseBtnMusic');
+    const playPause = document.getElementById('playPauseBtnMusic');
     const progressBar = document.getElementById('musicProgressBar');
+    const progressContainer = document.getElementById('progressContainer');
     const currentTimeSpan = document.getElementById('currentTime');
     const durationSpan = document.getElementById('duration');
-    const progressContainer = document.getElementById('progressContainer');
-    const equalizerBars = document.getElementById('equalizer');
+    const eq = document.getElementById('equalizer');
     
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-    
-    function updateProgress() {
-      if (audioElement && audioElement.duration) {
-        const percent = (audioElement.currentTime / audioElement.duration) * 100;
-        progressBar.style.width = percent + '%';
-        currentTimeSpan.innerText = formatTime(audioElement.currentTime);
-        durationSpan.innerText = formatTime(audioElement.duration);
-      }
-    }
-    
-    function togglePlay() {
-      if (audioElement.paused) {
-        audioElement.play();
-        isPlaying = true;
-        playPauseBtn.innerHTML = '⏸️';
-        if (progressInterval) clearInterval(progressInterval);
-        progressInterval = setInterval(updateProgress, 500);
-        // animate equalizer
-        if (equalizerBars) {
-          equalizerBars.style.opacity = '1';
-        }
-      } else {
-        audioElement.pause();
-        isPlaying = false;
-        playPauseBtn.innerHTML = '▶️';
-        if (progressInterval) clearInterval(progressInterval);
-        if (equalizerBars) equalizerBars.style.opacity = '0.5';
-      }
-    }
-    
-    audioElement.addEventListener('loadedmetadata', () => {
-      durationSpan.innerText = formatTime(audioElement.duration);
+    const format = (s) => `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,'0')}`;
+    audioElement.addEventListener('loadedmetadata', () => durationSpan.innerText = format(audioElement.duration));
+    audioElement.addEventListener('timeupdate', () => {
+      const percent = (audioElement.currentTime / audioElement.duration) * 100;
+      progressBar.style.width = percent + '%';
+      currentTimeSpan.innerText = format(audioElement.currentTime);
     });
-    
-    audioElement.addEventListener('timeupdate', updateProgress);
-    
-    if (playPauseBtn) playPauseBtn.onclick = togglePlay;
-    
-    if (progressContainer) {
-      progressContainer.onclick = (e) => {
-        const rect = progressContainer.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        audioElement.currentTime = percent * audioElement.duration;
-        updateProgress();
-      };
-    }
-    
-    // optional prev/next just for demo (replay song)
-    const prevBtn = document.getElementById('prevBtnMusic');
-    const nextBtn = document.getElementById('nextBtnMusic');
-    if (prevBtn) prevBtn.onclick = () => { audioElement.currentTime = 0; if(!audioElement.paused) audioElement.play(); };
-    if (nextBtn) nextBtn.onclick = () => { audioElement.currentTime = 0; if(!audioElement.paused) audioElement.play(); };
-    
-    // autoplay after user interaction (password sudah dimasukkan, jadi user sudah klik)
-    audioElement.play().then(() => {
-      isPlaying = true;
-      if(playPauseBtn) playPauseBtn.innerHTML = '⏸️';
-      progressInterval = setInterval(updateProgress, 500);
-    }).catch(e => console.log("Autoplay mungkin diblokir, user perlu klik play manual", e));
+    playPause.onclick = () => {
+      if (audioElement.paused) { audioElement.play(); playPause.innerHTML = '⏸️'; eq.style.opacity = 1; }
+      else { audioElement.pause(); playPause.innerHTML = '▶️'; eq.style.opacity = 0.5; }
+    };
+    progressContainer.onclick = (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      audioElement.currentTime = percent * audioElement.duration;
+    };
+    document.getElementById('prevBtnMusic').onclick = () => audioElement.currentTime = 0;
+    document.getElementById('nextBtnMusic').onclick = () => audioElement.currentTime = 0;
+    audioElement.play().then(() => { playPause.innerHTML = '⏸️'; eq.style.opacity = 1; }).catch(() => {});
   }
 
-  // Floating sakura & sparkles
-  function createFloatingElements() {
-    setInterval(() => {
-      const petal = document.createElement('div');
-      petal.className = 'petal';
-      petal.innerHTML = '🌸';
-      petal.style.left = Math.random() * 100 + '%';
-      petal.style.fontSize = (15 + Math.random() * 20) + 'px';
-      petal.style.animation = `fall ${5 + Math.random() * 6}s linear forwards`;
-      document.body.appendChild(petal);
-      setTimeout(() => petal.remove(), 10000);
-    }, 300);
-    setInterval(() => {
-      const spark = document.createElement('div');
-      spark.className = 'sparkle';
-      spark.innerHTML = '✨';
-      spark.style.left = Math.random() * 100 + '%';
-      spark.style.top = Math.random() * 100 + '%';
-      spark.style.fontSize = (10 + Math.random() * 15) + 'px';
-      spark.style.opacity = Math.random() * 0.6 + 0.2;
-      spark.style.animation = `twinkle ${1 + Math.random() * 2}s infinite`;
-      document.body.appendChild(spark);
-      setTimeout(() => spark.remove(), 2000);
-    }, 800);
-  }
-
-  // Bottom navigation & progress
   function updateNavAndProgress() {
     let navDiv = document.querySelector('.bottom-nav');
-    if(!navDiv) {
-      navDiv = document.createElement('div');
-      navDiv.className = 'bottom-nav';
+    if (!navDiv) {
+      navDiv = document.createElement('div'); navDiv.className = 'bottom-nav';
       document.body.appendChild(navDiv);
-      const progressDiv = document.createElement('div');
-      progressDiv.className = 'progress-indicator';
-      document.body.appendChild(progressDiv);
+      const progDiv = document.createElement('div'); progDiv.className = 'progress-indicator';
+      document.body.appendChild(progDiv);
     }
     const nav = document.querySelector('.bottom-nav');
     const prog = document.querySelector('.progress-indicator');
-    nav.innerHTML = '';
-    prog.innerHTML = '';
-    pages.forEach((p, idx) => {
-      const icons = ['🏠', '⏰', '🎵', '📸', '💌', '💖', '✨'];
+    nav.innerHTML = ''; prog.innerHTML = '';
+    const icons = ['🏠', '⏰', '🎵', '📸', '💌', '💖', '✨'];
+    pages.forEach((_, idx) => {
       const btn = document.createElement('button');
       btn.innerText = icons[idx];
-      btn.className = 'nav-btn';
-      if(idx === currentIndex) btn.classList.add('active');
+      btn.className = 'nav-btn' + (idx === currentIndex ? ' active' : '');
       btn.onclick = () => changePage(idx);
       nav.appendChild(btn);
-      
       const dot = document.createElement('div');
-      dot.className = 'progress-dot';
-      if(idx === currentIndex) dot.classList.add('active');
+      dot.className = 'progress-dot' + (idx === currentIndex ? ' active' : '');
       prog.appendChild(dot);
     });
-    
     let backNext = document.querySelector('.backnext-container');
-    if(!backNext) {
-      backNext = document.createElement('div');
-      backNext.style.position = 'fixed';
-      backNext.style.bottom = '100px';
-      backNext.style.left = '0';
-      backNext.style.right = '0';
-      backNext.style.display = 'flex';
-      backNext.style.justifyContent = 'space-between';
-      backNext.style.padding = '0 20px';
-      backNext.style.zIndex = '100';
-      backNext.className = 'backnext-container';
+    if (!backNext) {
+      backNext = document.createElement('div'); backNext.className = 'backnext-container';
+      backNext.style.cssText = 'position:fixed; bottom:100px; left:0; right:0; display:flex; justify-content:space-between; padding:0 20px; z-index:100;';
       document.body.appendChild(backNext);
     }
     backNext.innerHTML = `
-      <button id="prevBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex === 0 ? 'opacity:0.3; pointer-events:none' : ''}">← Back</button>
-      <button id="nextBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex === pages.length-1 ? 'opacity:0.3; pointer-events:none' : ''}">Next ❤️</button>
+      <button id="prevBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex===0?'opacity:0.3;pointer-events:none':''}">← Back</button>
+      <button id="nextBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex===pages.length-1?'opacity:0.3;pointer-events:none':''}">Next ❤️</button>
     `;
-    document.getElementById('prevBtn')?.addEventListener('click', () => { if(currentIndex > 0) changePage(currentIndex-1); });
-    document.getElementById('nextBtn')?.addEventListener('click', () => { if(currentIndex < pages.length-1) changePage(currentIndex+1); });
+    document.getElementById('prevBtn')?.addEventListener('click', () => { if(currentIndex>0) changePage(currentIndex-1); });
+    document.getElementById('nextBtn')?.addEventListener('click', () => { if(currentIndex<pages.length-1) changePage(currentIndex+1); });
   }
 
   function changePage(newIndex) {
-    if(newIndex === currentIndex) return;
+    if (newIndex === currentIndex) return;
     const app = document.getElementById('app');
     app.style.opacity = '0';
     app.style.transform = 'translateY(20px)';
@@ -789,24 +593,26 @@
       app.style.opacity = '1';
       app.style.transform = 'translateY(0)';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      updateNavAndProgress();
     }, 300);
   }
 
-  // Password check
   function checkPassword() {
-    const pwd = document.getElementById('passwordInput').value;
-    if(pwd === 'mila123') {
+    if (document.getElementById('passwordInput').value === 'mila123') {
       document.getElementById('passwordScreen').style.display = 'none';
       renderPage(0);
-      createFloatingElements();
-    } else {
-      alert('Password salah 💔 Coba lagi');
-    }
+      setInterval(() => {
+        const petal = document.createElement('div'); petal.className = 'petal'; petal.innerHTML = '🌸';
+        petal.style.cssText = `left:${Math.random()*100}%; font-size:${15+Math.random()*20}px; animation:fall ${5+Math.random()*6}s linear forwards; position:fixed; top:-20px; pointer-events:none;`;
+        document.body.appendChild(petal); setTimeout(() => petal.remove(), 10000);
+      }, 300);
+      setInterval(() => {
+        const spark = document.createElement('div'); spark.className = 'sparkle'; spark.innerHTML = '✨';
+        spark.style.cssText = `left:${Math.random()*100}%; top:${Math.random()*100}%; font-size:${10+Math.random()*15}px; animation:twinkle ${1+Math.random()*2}s infinite; position:fixed; pointer-events:none;`;
+        document.body.appendChild(spark); setTimeout(() => spark.remove(), 2000);
+      }, 800);
+    } else alert('Password salah 💔 Coba lagi');
   }
-
   window.checkPassword = checkPassword;
-  window.changePage = changePage;
 </script>
 </body>
 </html>
