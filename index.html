@@ -3,32 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Happy Birthday Mila Salsa ❤️</title>
+  <title>Happy Birthday Mila Salsa ❤️ | Romantic Surprise</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       background: #050505;
       color: #fff;
       overflow-x: hidden;
       position: relative;
+      min-height: 100vh;
     }
-    /* Background dan glow */
+
     .bg-gradient {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 20% 30%, #0a0008, #030001, #000);
+      background: radial-gradient(circle at 20% 30%, #0a0008, #030001, #000000);
       z-index: -2;
     }
+    .bg-gradient::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(45deg, rgba(255, 79, 163, 0.03) 0px, rgba(255, 79, 163, 0.03) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+    }
+
     .glow-orb {
       position: fixed;
       border-radius: 50%;
       filter: blur(100px);
       opacity: 0.5;
       z-index: -1;
+      pointer-events: none;
     }
     .glow1 { width: 60vw; height: 60vw; background: #ff4fa3; top: -20vh; left: -30vw; }
     .glow2 { width: 70vw; height: 70vw; background: #ff1493; bottom: -30vh; right: -20vw; }
@@ -38,7 +58,7 @@
     #passwordScreen {
       position: fixed;
       inset: 0;
-      background: rgba(5,5,5,0.96);
+      background: rgba(5, 5, 5, 0.95);
       backdrop-filter: blur(12px);
       display: flex;
       justify-content: center;
@@ -46,20 +66,21 @@
       z-index: 10000;
     }
     .password-box {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
-      border: 1px solid #ff4fa3;
+      border: 1px solid rgba(255, 79, 163, 0.5);
       border-radius: 40px;
       padding: 40px 30px;
       text-align: center;
       width: 90%;
       max-width: 380px;
-      box-shadow: 0 0 40px rgba(255,79,163,0.3);
+      box-shadow: 0 0 40px rgba(255, 79, 163, 0.3);
     }
     .password-box h1 {
       font-family: 'Playfair Display', serif;
       color: #ff4fa3;
       text-shadow: 0 0 15px #ff4fa3;
+      margin-bottom: 10px;
     }
     .password-box input {
       width: 100%;
@@ -69,6 +90,8 @@
       border: 1px solid #ff4fa3;
       border-radius: 60px;
       color: white;
+      font-size: 1rem;
+      outline: none;
       text-align: center;
     }
     .password-box button {
@@ -79,78 +102,217 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
       box-shadow: 0 0 15px #ff4fa3;
     }
+    .password-box button:hover { transform: scale(1.05); }
 
-    /* Floating elements */
-    .petal, .sparkle { position: fixed; pointer-events: none; z-index: 10; }
-    @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-    @keyframes twinkle { 0%,100%{ opacity:0; transform:scale(0.5); } 50%{ opacity:1; transform:scale(1); } }
-    .sparkle { animation: twinkle 2s infinite; }
+    /* Floating petals & sparkles */
+    .petal, .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .sparkle {
+      animation: twinkle 2s infinite ease-in-out;
+    }
 
-    /* Pages */
-    .page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 80px 20px; transition: opacity 0.5s, transform 0.4s; }
+    /* Page transition */
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 20px;
+      transition: opacity 0.6s ease, transform 0.5s ease;
+    }
     .glass-card {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,79,163,0.4);
+      border: 1px solid rgba(255, 79, 163, 0.4);
       border-radius: 48px;
       padding: 40px 30px;
       width: 100%;
       max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 40px rgba(255, 79, 163, 0.2);
       text-align: center;
-      box-shadow: 0 0 40px rgba(255,79,163,0.2);
     }
-    h1, h2 { font-family: 'Playfair Display', serif; color: #ff4fa3; text-shadow: 0 0 12px #ff4fa3; }
-    .neon-text { text-shadow: 0 0 8px #ff4fa3, 0 0 18px #ff1493; }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+      color: #ff4fa3;
+      text-shadow: 0 0 12px #ff4fa3;
+    }
+    .neon-text {
+      text-shadow: 0 0 8px #ff4fa3, 0 0 18px #ff1493;
+    }
 
     /* Countdown */
-    .countdown-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 30px 0; }
-    .time-box { background: rgba(0,0,0,0.6); border: 1px solid #ff4fa3; border-radius: 24px; padding: 15px; min-width: 70px; box-shadow: 0 0 15px #ff4fa3; }
-    .time-number { font-size: 2.5rem; font-weight: bold; color: #ff4fa3; }
-    .time-label { font-size: 0.8rem; }
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    .time-box {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #ff4fa3;
+      border-radius: 24px;
+      padding: 20px;
+      min-width: 80px;
+      text-align: center;
+      box-shadow: 0 0 15px #ff4fa3;
+    }
+    .time-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff4fa3;
+    }
+    .time-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
 
-    /* Gallery Portrait - ukuran tidak terlalu besar */
-    .swiper { width: 100%; max-width: 320px; margin: 0 auto; border-radius: 32px; overflow: hidden; }
-    .swiper-slide { display: flex; justify-content: center; }
-    .gallery-img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 32px; box-shadow: 0 0 20px rgba(255,79,163,0.3); }
-    .swiper-button-next, .swiper-button-prev { color: #ff4fa3 !important; transform: scale(0.7); }
+    /* Gallery - Portrait, ukuran lebih kecil */
+    .swiper {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 32px;
+    }
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+    }
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 32px;
+      box-shadow: 0 0 20px rgba(255,79,163,0.3);
+      max-width: 280px;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: #ff4fa3 !important;
+    }
 
     /* Reasons grid */
-    .reasons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 30px; }
-    .reason-card { background: rgba(255,255,255,0.08); border-radius: 28px; padding: 15px; border: 1px solid rgba(255,79,163,0.3); transition: 0.3s; }
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .reason-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 15px;
+      border: 1px solid rgba(255,79,163,0.3);
+      transition: 0.3s;
+    }
+    .reason-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px #ff4fa3;
+    }
 
-    /* Spotify-style fixed widget (tidak ikut slide) */
+    /* Spotify-style floating widget (tidak menghalangi tombol next) */
     .spotify-widget {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 280px;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(20px);
       border-radius: 16px;
       padding: 12px;
-      border: 1px solid #ff4fa3;
-      box-shadow: 0 0 25px rgba(255,79,163,0.3);
-      z-index: 200;
       display: flex;
+      align-items: center;
       gap: 12px;
+      z-index: 200;
+      border: 1px solid rgba(255, 79, 163, 0.5);
+      box-shadow: 0 0 15px rgba(255,79,163,0.3);
+      transition: all 0.3s;
+    }
+    .widget-cover {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .widget-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .widget-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .widget-title {
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .widget-artist {
+      font-size: 0.7rem;
+      color: #ccc;
+    }
+    .widget-controls {
+      display: flex;
+      gap: 8px;
       align-items: center;
     }
-    .spotify-cover { width: 50px; height: 50px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
-    .spotify-cover img { width: 100%; height: 100%; object-fit: cover; }
-    .spotify-info { flex: 1; }
-    .spotify-title { font-size: 0.85rem; font-weight: bold; }
-    .spotify-artist { font-size: 0.7rem; color: #ccc; }
-    .spotify-controls { display: flex; gap: 12px; align-items: center; margin-top: 5px; }
-    .spotify-controls button { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
-    .spotify-progress { width: 100%; height: 3px; background: #333; border-radius: 3px; margin: 6px 0; cursor: pointer; }
-    .spotify-progress-fill { width: 0%; height: 100%; background: #ff4fa3; border-radius: 3px; }
-    .equalizer-mini { display: flex; gap: 2px; align-items: center; margin-left: 8px; }
-    .equalizer-mini span { width: 2px; height: 8px; background: #ff4fa3; animation: eq 0.6s infinite alternate; }
-    @keyframes eq { 0% { height: 4px; } 100% { height: 12px; } }
+    .widget-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .widget-controls button:hover {
+      color: #ff4fa3;
+    }
+    .widget-progress {
+      width: 100%;
+      height: 3px;
+      background: #333;
+      border-radius: 3px;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+    .widget-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #ff4fa3;
+      border-radius: 3px;
+    }
 
-    /* Bottom navigation */
+    .bunny {
+      font-size: 4rem;
+      filter: drop-shadow(0 0 15px #ff4fa3);
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-15px); }
+    }
+
+    /* Bottom navigation (tombol next/back) */
     .bottom-nav {
       position: fixed;
       bottom: 20px;
@@ -159,28 +321,86 @@
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(20px);
       border-radius: 60px;
-      padding: 6px 18px;
+      padding: 8px 20px;
       display: flex;
-      gap: 18px;
+      gap: 20px;
       z-index: 100;
-      border: 1px solid #ff4fa3;
+      border: 1px solid rgba(255,79,163,0.5);
     }
-    .nav-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; padding: 6px; }
-    .nav-btn.active { color: #ff4fa3; text-shadow: 0 0 8px #ff4fa3; }
-    .progress-indicator { position: fixed; bottom: 95px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 100; }
-    .progress-dot { width: 6px; height: 6px; border-radius: 50%; background: #555; transition: 0.3s; }
-    .progress-dot.active { width: 20px; background: #ff4fa3; }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+      transition: 0.2s;
+    }
+    .nav-btn.active {
+      color: #ff4fa3;
+      text-shadow: 0 0 8px #ff4fa3;
+    }
+    .progress-indicator {
+      position: fixed;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      z-index: 100;
+    }
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #555;
+      transition: 0.3s;
+    }
+    .progress-dot.active {
+      width: 24px;
+      background: #ff4fa3;
+      box-shadow: 0 0 8px #ff4fa3;
+    }
+
+    /* Tombol Next/Back container */
+    .backnext-container {
+      position: fixed;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .backnext-container button {
+      pointer-events: auto;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #ff4fa3;
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .backnext-container button:hover {
+      background: #ff4fa3;
+      color: black;
+    }
 
     @media (max-width: 680px) {
       .glass-card { padding: 30px 20px; }
-      .time-number { font-size: 1.8rem; }
-      .spotify-widget { width: 260px; bottom: 80px; right: 10px; }
-      .bottom-nav { bottom: 12px; }
-      .progress-indicator { bottom: 85px; }
+      .time-number { font-size: 2rem; }
+      .spotify-widget { width: 250px; bottom: 10px; right: 10px; }
+      .backnext-container { bottom: 90px; }
+      .progress-indicator { bottom: 90px; }
     }
   </style>
 </head>
 <body>
+
 <div class="bg-gradient"></div>
 <div class="glow-orb glow1"></div>
 <div class="glow-orb glow2"></div>
@@ -189,49 +409,51 @@
 <div id="passwordScreen">
   <div class="password-box">
     <h1>✨ Secret Love Letter ✨</h1>
-    <p>Enter password to unlock</p>
-    <input type="password" id="passwordInput" placeholder="Password">
+    <p>Enter password to unlock the surprise</p>
+    <input type="password" id="passwordInput" placeholder="Password" autocomplete="off">
     <button onclick="checkPassword()">Unlock ❤️</button>
+  </div>
+</div>
+
+<!-- Floating Spotify Widget (selalu muncul setelah unlock) -->
+<div id="spotifyWidget" class="spotify-widget" style="display: none;">
+  <div class="widget-cover">
+    <img src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="cover">
+  </div>
+  <div class="widget-info">
+    <div class="widget-title">Perfect</div>
+    <div class="widget-artist">Ed Sheeran</div>
+    <div class="widget-progress" id="widgetProgress">
+      <div class="widget-progress-bar" id="widgetProgressBar"></div>
+    </div>
+  </div>
+  <div class="widget-controls">
+    <button id="widgetPlayPause">▶️</button>
   </div>
 </div>
 
 <main id="app"></main>
 
-<!-- Spotify Widget -->
-<div id="spotifyWidget" class="spotify-widget" style="display: none;">
-  <div class="spotify-cover"><img id="albumArt" src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="cover"></div>
-  <div class="spotify-info">
-    <div class="spotify-title">Perfect</div>
-    <div class="spotify-artist">Ed Sheeran</div>
-    <div class="spotify-progress" id="progressBarBg"><div class="spotify-progress-fill" id="progressFill"></div></div>
-    <div class="spotify-controls">
-      <button id="playPauseBtn">▶️</button>
-      <div class="equalizer-mini" id="eqMini"><span></span><span></span><span></span></div>
-    </div>
-  </div>
-</div>
-
 <script>
-  // Data halaman (7 halaman)
+  // Pages data (tanpa QR)
   const pages = [
     { id: 'hero' }, { id: 'countdown' }, { id: 'music' },
     { id: 'gallery' }, { id: 'loveletter' }, { id: 'reasons' }, { id: 'final' }
   ];
   let currentIndex = 0;
   let swiperGallery = null;
-  let audio = null;
+  let audioElement = null;
   let progressInterval = null;
-  let countdownInterval = null;
   const birthdayDate = new Date(2026, 4, 25, 0, 0, 0);
 
-  // Template setiap halaman (lengkap)
+  // HTML templates (love letter panjang)
   const templates = {
     hero: `
       <div class="glass-card">
         <h1 class="neon-text" style="font-size: 3rem;">Happy Birthday<br>Mila Salsa ❤️</h1>
-        <p style="margin: 20px 0;">You are my today and all of my tomorrows.</p>
-        <div style="margin: 30px auto; width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 3px solid #ff4fa3; box-shadow: 0 0 30px #ff4fa3;">
-          <img src="https://placehold.co/400x400/ff4fa3/ffffff?text=Couple" style="width:100%; height:100%; object-fit:cover;">
+        <p style="margin: 20px 0; font-size: 1.2rem;">You are my today and all of my tomorrows.</p>
+        <div style="margin: 30px auto; width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 3px solid #ff4fa3; box-shadow: 0 0 30px #ff4fa3;">
+          <img src="https://placehold.co/400x400/ff4fa3/ffffff?text=Couple+Photo" style="width:100%; height:100%; object-fit:cover;" alt="couple">
         </div>
         <button class="next-btn" style="background: linear-gradient(135deg,#ff4fa3,#ff1493); border:none; padding:12px 32px; border-radius:40px; color:white; font-weight:bold; margin-top:20px; cursor:pointer;">Open Surprise 💌</button>
       </div>
@@ -245,24 +467,24 @@
           <div class="time-box"><div class="time-number" id="minutes">0</div><div class="time-label">Menit</div></div>
           <div class="time-box"><div class="time-number" id="seconds">0</div><div class="time-label">Detik</div></div>
         </div>
-        <p>Another year of beautiful life. Another year of loving you.</p>
+        <p style="margin-top: 20px;">Another year of beautiful life. Another year of loving you.</p>
       </div>
     `,
     music: `
       <div class="glass-card">
         <h2 class="neon-text">🎵 Our Song 🎵</h2>
-        <p style="margin-bottom: 20px;">Dengarkan lagu spesial untukmu di widget Spotify di pojok kanan bawah ❤️</p>
-        <div style="font-size: 3rem;">🎶</div>
+        <p>Lagu spesial "Perfect" dari Ed Sheeran sedang diputar di widget pojok kanan bawah ❤️</p>
+        <div class="bunny" style="margin-top: 30px;">🐰🎶</div>
       </div>
     `,
     gallery: `
-      <div class="glass-card" style="padding: 20px;">
+      <div class="glass-card">
         <h2 class="neon-text">📸 Beautiful Memories</h2>
         <div class="swiper mySwiper" style="margin-top: 20px;">
           <div class="swiper-wrapper">
-            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff4fa3/ffffff?text=Kenangan+1" alt="mem1"></div>
-            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff1493/ffffff?text=Kenangan+2" alt="mem2"></div>
-            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/b87cff/ffffff?text=Kenangan+3" alt="mem3"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff4fa3/ffffff?text=Memory+1" alt="memori1"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/ff1493/ffffff?text=Memory+2" alt="memori2"></div>
+            <div class="swiper-slide"><img class="gallery-img" src="https://placehold.co/600x800/b87cff/ffffff?text=Memory+3" alt="memori3"></div>
           </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
@@ -276,14 +498,14 @@
           <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#ff1493; clip-path: polygon(0 0, 100% 0, 50% 100%);"></div>
           <div style="position:absolute; bottom:10px; left:0; right:0; text-align:center; color:white;">✉️</div>
         </div>
-        <div id="letterContent" style="display:none; background:white; color:#222; border-radius:20px; padding:25px; text-align:left; max-height:350px; overflow-y:auto; line-height:1.8;">
-          <p>💖 <strong>Untuk Mila Salsa tercinta,</strong><br><br>
-          Selamat ulang tahun, sayangku! 🎂✨<br><br>
-          Hari ini adalah hari yang paling istimewa karena pada hari ini, dunia menghadirkan seseorang sepertimu. Sejak pertama kali aku melihatmu, aku tahu bahwa takdir menyimpan cerita indah untuk kita. Kamu bukan hanya hadiah di hidupku, tapi kamu adalah rumahku, tempatku pulang setelah lelah berkelana.<br><br>
-          Setiap senyumanmu adalah sinar mentari yang menghangatkan hariku. Setiap tawamu adalah melodi terindah yang tak pernah bosan kudengar. Aku mencintaimu bukan hanya karena siapa dirimu, tapi karena aku menjadi versi terbaik dari diriku saat bersamamu.<br><br>
-          Di usia barumu ini, aku berdoa semoga semua mimpi dan harapanmu terwujud. Semoga kebahagiaan selalu menyertai setiap langkahmu. Dan aku janji, akan selalu ada di sampingmu, dalam suka maupun duka, dalam tawa maupun air mata.<br><br>
-          Terima kasih telah menjadi teman terbaik, kekasih terhebat, dan rumah terhangat. I love you lebih dari kemarin, tapi kurang dari esok hari. ❤️<br><br>
-          Selamanya cintaku,<br>
+        <div id="letterContent" style="display:none; background:white; color:#222; border-radius:20px; padding:20px; text-align:left; max-height:300px; overflow-y:auto;">
+          <p>💖 <strong>Untuk Mila Salsa tersayang,</strong><br><br>
+          Selamat ulang tahun, cintaku! 🎂✨ Hari ini adalah hari istimewa karena tepat pada tanggal ini dunia menjadi lebih indah dengan kehadiranmu.<br><br>
+          Sejak pertama kali aku melihatmu, aku tahu bahwa takdir mempertemukan kita. Setiap hari bersamamu adalah anugerah yang tak ternilai. Senyumanmu adalah sinar mentari di pagi hari, tawamu adalah melodi terindah, dan pelukanmu adalah rumah bagiku.<br><br>
+          Di usiamu yang baru ini, aku berdoa semoga semua impianmu tercapai, semoga kamu selalu diberikan kebahagiaan, kesehatan, dan perlindungan. Aku akan selalu ada di sampingmu, mendukungmu dalam setiap langkah, dan mencintaimu lebih dari kemarin, tapi kurang dari besok.<br><br>
+          Terima kasih telah menjadi bagian dari hidupku. Terima kasih telah mencintaiku dengan tulus. Kamu membuatku menjadi versi terbaik dari diriku.<br><br>
+          I love you endlessly, today and forever. ❤️<br><br>
+          Dengan segenap cinta,<br>
           [Your Name]</p>
         </div>
       </div>
@@ -292,22 +514,27 @@
       <div class="glass-card">
         <h2 class="neon-text">💖 Reasons I Love You</h2>
         <div class="reasons-grid">
-          <div class="reason-card">🌸 Kamu selalu ada untuk aku</div><div class="reason-card">😊 Kamu bikin aku bahagia</div>
-          <div class="reason-card">👸 Kamu cantik luar dalam</div><div class="reason-card">🏠 Kamu rumah terbaikku</div>
-          <div class="reason-card">👭 Kamu sahabat terbaikku</div><div class="reason-card">🌟 Kamu membuat hidupku berarti</div>
-          <div class="reason-card">💪 Kamu inspirasiku setiap hari</div><div class="reason-card">💭 Kamu selalu di pikiranku</div>
+          <div class="reason-card">🌸 Kamu selalu ada untuk aku</div>
+          <div class="reason-card">😊 Kamu bikin aku bahagia</div>
+          <div class="reason-card">👸 Kamu cantik luar dalam</div>
+          <div class="reason-card">🏠 Kamu rumah terbaikku</div>
+          <div class="reason-card">👭 Kamu sahabat terbaikku</div>
+          <div class="reason-card">🌟 Kamu membuat hidupku berarti</div>
+          <div class="reason-card">💪 Kamu inspirasiku setiap hari</div>
+          <div class="reason-card">💭 Kamu selalu di pikiranku</div>
         </div>
       </div>
     `,
     final: `
       <div class="glass-card">
         <h2 class="neon-text">Thank you for being born<br>and being part of my life ❤️</h2>
-        <div style="margin:30px 0; font-size:5rem;">🐰✨💖</div>
+        <div class="bunny">🐰✨💖</div>
         <button id="replayBtn" style="background: linear-gradient(135deg,#ff4fa3,#ff1493); border:none; padding:12px 32px; border-radius:40px; color:white; cursor:pointer;">Replay Our Story 🔄</button>
       </div>
     `
   };
 
+  // Render halaman
   function renderPage(index) {
     const app = document.getElementById('app');
     const pageId = pages[index].id;
@@ -315,23 +542,24 @@
     if (pageId === 'hero') {
       document.querySelector('.next-btn')?.addEventListener('click', () => changePage(1));
     }
-    if (pageId === 'countdown') {
-      startCountdown();
-    }
+    if (pageId === 'countdown') startCountdown();
     if (pageId === 'gallery') {
       if (swiperGallery) swiperGallery.destroy(true, true);
       swiperGallery = new Swiper('.mySwiper', {
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
         loop: true,
+        effect: 'slide'
       });
     }
     if (pageId === 'loveletter') {
       const envelope = document.getElementById('envelope');
       const letter = document.getElementById('letterContent');
-      if (envelope) envelope.onclick = () => {
-        envelope.style.display = 'none';
-        letter.style.display = 'block';
-      };
+      if (envelope) {
+        envelope.onclick = () => {
+          envelope.style.display = 'none';
+          letter.style.display = 'block';
+        };
+      }
     }
     if (pageId === 'final') {
       document.getElementById('replayBtn')?.addEventListener('click', () => {
@@ -343,11 +571,12 @@
     updateNavAndProgress();
   }
 
+  // Countdown
+  let countdownInterval;
   function startCountdown() {
     if (countdownInterval) clearInterval(countdownInterval);
-    function update() {
-      const now = new Date();
-      const diff = birthdayDate - now;
+    const update = () => {
+      const diff = birthdayDate - new Date();
       if (diff <= 0) {
         document.getElementById('days').innerText = '0';
         document.getElementById('hours').innerText = '0';
@@ -360,72 +589,67 @@
       document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
       document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
       document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
-    }
+    };
     update();
     countdownInterval = setInterval(update, 1000);
   }
 
-  // Setup musik Spotify widget terpisah
-  function initSpotifyPlayer() {
-    if (audio) return;
-    // Gunakan URL MP3 yang bisa diakses (ganti dengan file "Perfect" milikmu)
-    // Karena file Perfect asli mungkin kena hak cipta, saya pakai contoh dari soundhelix sebagai demo.
-    // Kamu bisa ganti dengan file mp3 yang kamu upload di repo.
-    audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    audio.loop = true;
-    audio.volume = 0.6;
-    
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressFill = document.getElementById('progressFill');
-    const progressBg = document.getElementById('progressBarBg');
-    const eqSpans = document.querySelectorAll('#eqMini span');
+  // Musik widget Spotify style
+  function initMusicWidget() {
+    if (!audioElement) {
+      // Ganti dengan file MP3 "Perfect" jika punya, contoh gunakan public domain
+      audioElement = new Audio('https://www.youtube.com/watch?v=KFRi73k4Pnc');
+      audioElement.loop = true;
+      audioElement.volume = 0.6;
+    }
+    const widget = document.getElementById('spotifyWidget');
+    const playPauseBtn = document.getElementById('widgetPlayPause');
+    const progressBar = document.getElementById('widgetProgressBar');
+    const progressContainer = document.getElementById('widgetProgress');
     
     function updateProgress() {
-      if (audio.duration) {
-        const percent = (audio.currentTime / audio.duration) * 100;
-        progressFill.style.width = percent + '%';
+      if (audioElement.duration) {
+        const percent = (audioElement.currentTime / audioElement.duration) * 100;
+        progressBar.style.width = percent + '%';
       }
     }
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadedmetadata', () => { progressFill.style.width = '0%'; });
+    
+    audioElement.addEventListener('timeupdate', updateProgress);
+    audioElement.addEventListener('loadedmetadata', updateProgress);
     
     playPauseBtn.onclick = () => {
-      if (audio.paused) {
-        audio.play();
+      if (audioElement.paused) {
+        audioElement.play();
         playPauseBtn.innerHTML = '⏸️';
-        if (progressInterval) clearInterval(progressInterval);
-        progressInterval = setInterval(updateProgress, 500);
-        eqSpans.forEach(s => s.style.animation = 'eq 0.6s infinite alternate');
       } else {
-        audio.pause();
+        audioElement.pause();
         playPauseBtn.innerHTML = '▶️';
-        clearInterval(progressInterval);
-        eqSpans.forEach(s => s.style.animation = 'none');
       }
     };
     
-    progressBg.onclick = (e) => {
-      const rect = progressBg.getBoundingClientRect();
+    progressContainer.onclick = (e) => {
+      const rect = progressContainer.getBoundingClientRect();
       const percent = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = percent * audio.duration;
-      updateProgress();
+      audioElement.currentTime = percent * audioElement.duration;
     };
     
-    // Autoplay setelah user klik unlock (sudah ada gesture)
-    audio.play().then(() => {
+    // Autoplay setelah user buka password (user gesture sudah ada)
+    audioElement.play().then(() => {
       playPauseBtn.innerHTML = '⏸️';
-      progressInterval = setInterval(updateProgress, 500);
-      eqSpans.forEach(s => s.style.animation = 'eq 0.6s infinite alternate');
-    }).catch(e => console.log('Autoplay ditolak, user perlu klik play manual'));
+    }).catch(e => console.log("Autoplay perlu interaksi", e));
+    
+    widget.style.display = 'flex';
   }
 
-  // Navigasi dan progress
+  // Navigasi bawah
   function updateNavAndProgress() {
     let navDiv = document.querySelector('.bottom-nav');
     if (!navDiv) {
-      navDiv = document.createElement('div'); navDiv.className = 'bottom-nav';
+      navDiv = document.createElement('div');
+      navDiv.className = 'bottom-nav';
       document.body.appendChild(navDiv);
-      const progDiv = document.createElement('div'); progDiv.className = 'progress-indicator';
+      const progDiv = document.createElement('div');
+      progDiv.className = 'progress-indicator';
       document.body.appendChild(progDiv);
     }
     const nav = document.querySelector('.bottom-nav');
@@ -443,19 +667,19 @@
       dot.className = 'progress-dot' + (idx === currentIndex ? ' active' : '');
       prog.appendChild(dot);
     });
+    
     let backNext = document.querySelector('.backnext-container');
     if (!backNext) {
       backNext = document.createElement('div');
       backNext.className = 'backnext-container';
-      backNext.style.cssText = 'position:fixed; bottom:95px; left:0; right:0; display:flex; justify-content:space-between; padding:0 20px; z-index:100;';
       document.body.appendChild(backNext);
     }
     backNext.innerHTML = `
-      <button id="prevBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:6px 18px; border-radius:40px; color:white; ${currentIndex===0?'opacity:0.3;pointer-events:none':''}">← Back</button>
-      <button id="nextBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:6px 18px; border-radius:40px; color:white; ${currentIndex===pages.length-1?'opacity:0.3;pointer-events:none':''}">Next ❤️</button>
+      <button id="prevBtn" style="${currentIndex === 0 ? 'opacity:0.3;pointer-events:none' : ''}">← Back</button>
+      <button id="nextBtn" style="${currentIndex === pages.length-1 ? 'opacity:0.3;pointer-events:none' : ''}">Next ❤️</button>
     `;
-    document.getElementById('prevBtn')?.addEventListener('click', () => { if(currentIndex>0) changePage(currentIndex-1); });
-    document.getElementById('nextBtn')?.addEventListener('click', () => { if(currentIndex<pages.length-1) changePage(currentIndex+1); });
+    document.getElementById('prevBtn')?.addEventListener('click', () => { if (currentIndex > 0) changePage(currentIndex-1); });
+    document.getElementById('nextBtn')?.addEventListener('click', () => { if (currentIndex < pages.length-1) changePage(currentIndex+1); });
   }
 
   function changePage(newIndex) {
@@ -472,41 +696,34 @@
     }, 300);
   }
 
-  // Floating sakura dan sparkle
-  function startFloating() {
+  // Floating petals & sparkles
+  function startFloatingElements() {
     setInterval(() => {
       const petal = document.createElement('div');
       petal.className = 'petal';
       petal.innerHTML = '🌸';
-      petal.style.left = Math.random() * 100 + '%';
-      petal.style.fontSize = (15 + Math.random() * 20) + 'px';
-      petal.style.animation = `fall ${5 + Math.random() * 6}s linear forwards`;
-      petal.style.top = '-20px';
+      petal.style.cssText = `left:${Math.random()*100}%; font-size:${15+Math.random()*20}px; animation:fall ${5+Math.random()*6}s linear forwards; position:fixed; top:-20px;`;
       document.body.appendChild(petal);
       setTimeout(() => petal.remove(), 10000);
-    }, 400);
+    }, 300);
     setInterval(() => {
       const spark = document.createElement('div');
       spark.className = 'sparkle';
       spark.innerHTML = '✨';
-      spark.style.left = Math.random() * 100 + '%';
-      spark.style.top = Math.random() * 100 + '%';
-      spark.style.fontSize = (10 + Math.random() * 15) + 'px';
-      spark.style.opacity = Math.random() * 0.6 + 0.2;
-      spark.style.animation = `twinkle ${1 + Math.random() * 2}s infinite`;
+      spark.style.cssText = `left:${Math.random()*100}%; top:${Math.random()*100}%; font-size:${10+Math.random()*15}px; animation:twinkle ${1+Math.random()*2}s infinite; position:fixed;`;
       document.body.appendChild(spark);
       setTimeout(() => spark.remove(), 2000);
     }, 800);
   }
 
+  // Password check
   function checkPassword() {
     const pwd = document.getElementById('passwordInput').value;
     if (pwd === 'mila123') {
       document.getElementById('passwordScreen').style.display = 'none';
-      document.getElementById('spotifyWidget').style.display = 'flex';
       renderPage(0);
-      startFloating();
-      initSpotifyPlayer();
+      startFloatingElements();
+      initMusicWidget();
     } else {
       alert('Password salah 💔 Coba lagi');
     }
