@@ -226,7 +226,7 @@
       box-shadow: 0 0 25px #ff4fa3;
     }
 
-    /* Spotify-style floating widget (tidak menghalangi tombol next) */
+    /* Spotify-style floating widget (YouTube hidden) */
     .spotify-widget {
       position: fixed;
       bottom: 20px;
@@ -390,6 +390,17 @@
       color: black;
     }
 
+    /* Hidden YouTube player */
+    #youtube-player {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     @media (max-width: 680px) {
       .glass-card { padding: 30px 20px; }
       .time-number { font-size: 2rem; }
@@ -415,7 +426,10 @@
   </div>
 </div>
 
-<!-- Floating Spotify Widget (selalu muncul setelah unlock) -->
+<!-- Hidden YouTube Player -->
+<div id="youtube-player"></div>
+
+<!-- Floating Spotify Widget (YouTube kontrol) -->
 <div id="spotifyWidget" class="spotify-widget" style="display: none;">
   <div class="widget-cover">
     <img src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="cover">
@@ -435,15 +449,16 @@
 <main id="app"></main>
 
 <script>
-  // Pages data (tanpa QR)
+  // Pages data (7 halaman)
   const pages = [
     { id: 'hero' }, { id: 'countdown' }, { id: 'music' },
     { id: 'gallery' }, { id: 'loveletter' }, { id: 'reasons' }, { id: 'final' }
   ];
   let currentIndex = 0;
   let swiperGallery = null;
-  let audioElement = null;
+  let ytPlayer = null;
   let progressInterval = null;
+  let isPlaying = false;
   const birthdayDate = new Date(2026, 4, 25, 0, 0, 0);
 
   // HTML templates (love letter panjang)
@@ -594,54 +609,82 @@
     countdownInterval = setInterval(update, 1000);
   }
 
-  // Musik widget Spotify style
-  function initMusicWidget() {
-    if (!audioElement) {
-      // Ganti dengan file MP3 "Perfect" jika punya, contoh gunakan public domain
-      audioElement = new Audio('https://www.youtube.com/watch?v=KFRi73k4Pnc');
-      audioElement.loop = true;
-      audioElement.volume = 0.6;
-    }
-    const widget = document.getElementById('spotifyWidget');
-    const playPauseBtn = document.getElementById('widgetPlayPause');
-    const progressBar = document.getElementById('widgetProgressBar');
-    const progressContainer = document.getElementById('widgetProgress');
-    
-    function updateProgress() {
-      if (audioElement.duration) {
-        const percent = (audioElement.currentTime / audioElement.duration) * 100;
-        progressBar.style.width = percent + '%';
-      }
-    }
-    
-    audioElement.addEventListener('timeupdate', updateProgress);
-    audioElement.addEventListener('loadedmetadata', updateProgress);
-    
-    playPauseBtn.onclick = () => {
-      if (audioElement.paused) {
-        audioElement.play();
-        playPauseBtn.innerHTML = '⏸️';
-      } else {
-        audioElement.pause();
-        playPauseBtn.innerHTML = '▶️';
-      }
-    };
-    
-    progressContainer.onclick = (e) => {
-      const rect = progressContainer.getBoundingClientRect();
-      const percent = (e.clientX - rect.left) / rect.width;
-      audioElement.currentTime = percent * audioElement.duration;
-    };
-    
-    // Autoplay setelah user buka password (user gesture sudah ada)
-    audioElement.play().then(() => {
-      playPauseBtn.innerHTML = '⏸️';
-    }).catch(e => console.log("Autoplay perlu interaksi", e));
-    
-    widget.style.display = 'flex';
+  // YouTube Player + Widget (hidden player)
+  function initYouTubePlayer() {
+    // YouTube IFrame API sudah dipanggil di bagian bawah
+    // Fungsi ini akan dipanggil setelah API ready
   }
 
-  // Navigasi bawah
+  function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('youtube-player', {
+      height: '0',
+      width: '0',
+      videoId: '2Vv-BfVoq4g', // Ed Sheeran - Perfect official video
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        loop: 1,
+        playlist: '2Vv-BfVoq4g',
+        modestbranding: 1,
+        rel: 0
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    // event.target.playVideo();
+    // autoplay sudah diatur di playerVars
+    const playPauseBtn = document.getElementById('widgetPlayPause');
+    if (playPauseBtn) playPauseBtn.innerHTML = '⏸️';
+    isPlaying = true;
+    startProgressPolling();
+  }
+
+  function onPlayerStateChange(event) {
+    const playPauseBtn = document.getElementById('widgetPlayPause');
+    if (event.data == YT.PlayerState.PLAYING) {
+      isPlaying = true;
+      if (playPauseBtn) playPauseBtn.innerHTML = '⏸️';
+      startProgressPolling();
+    } else if (event.data == YT.PlayerState.PAUSED) {
+      isPlaying = false;
+      if (playPauseBtn) playPauseBtn.innerHTML = '▶️';
+      if (progressInterval) clearInterval(progressInterval);
+    } else if (event.data == YT.PlayerState.ENDED) {
+      // loop
+      if (ytPlayer) ytPlayer.playVideo();
+    }
+  }
+
+  function startProgressPolling() {
+    if (progressInterval) clearInterval(progressInterval);
+    progressInterval = setInterval(() => {
+      if (ytPlayer && ytPlayer.getDuration && isPlaying) {
+        const current = ytPlayer.getCurrentTime();
+        const duration = ytPlayer.getDuration();
+        if (duration > 0) {
+          const percent = (current / duration) * 100;
+          const progressBar = document.getElementById('widgetProgressBar');
+          if (progressBar) progressBar.style.width = percent + '%';
+        }
+      }
+    }, 500);
+  }
+
+  function togglePlayPause() {
+    if (!ytPlayer) return;
+    if (isPlaying) {
+      ytPlayer.pauseVideo();
+    } else {
+      ytPlayer.playVideo();
+    }
+  }
+
+  // Navigasi
   function updateNavAndProgress() {
     let navDiv = document.querySelector('.bottom-nav');
     if (!navDiv) {
@@ -723,12 +766,34 @@
       document.getElementById('passwordScreen').style.display = 'none';
       renderPage(0);
       startFloatingElements();
-      initMusicWidget();
+      // Tampilkan widget musik
+      const widget = document.getElementById('spotifyWidget');
+      widget.style.display = 'flex';
+      // Inisialisasi tombol play/pause setelah player siap
+      setTimeout(() => {
+        const playPauseBtn = document.getElementById('widgetPlayPause');
+        if (playPauseBtn) playPauseBtn.onclick = togglePlayPause;
+        // Progress bar click
+        const progressContainer = document.getElementById('widgetProgress');
+        if (progressContainer && ytPlayer) {
+          progressContainer.onclick = (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            const duration = ytPlayer.getDuration();
+            if (duration) ytPlayer.seekTo(percent * duration, true);
+          };
+        }
+      }, 500);
     } else {
       alert('Password salah 💔 Coba lagi');
     }
   }
+
   window.checkPassword = checkPassword;
+  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 </script>
+
+<!-- Load YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
