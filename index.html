@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Happy Birthday Mila Salsa ❤️ | Romantic Surprise</title>
+  
+  <!-- Google Fonts & CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #050505;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Background gradient neon pink-black */
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 30%, #0a0008, #030001, #000000);
+      z-index: -2;
+    }
+    .bg-gradient::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(45deg, rgba(255, 79, 163, 0.03) 0px, rgba(255, 79, 163, 0.03) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+    }
+
+    /* Glow orbs */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.5;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .glow1 { width: 60vw; height: 60vw; background: #ff4fa3; top: -20vh; left: -30vw; }
+    .glow2 { width: 70vw; height: 70vw; background: #ff1493; bottom: -30vh; right: -20vw; }
+    .glow3 { width: 50vw; height: 50vw; background: #b87cff; top: 40%; left: 20%; }
+
+    /* Password screen */
+    #passwordScreen {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 5, 0.95);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: all 0.5s ease;
+    }
+    .password-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 79, 163, 0.5);
+      border-radius: 40px;
+      padding: 40px 30px;
+      text-align: center;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: 0 0 40px rgba(255, 79, 163, 0.3);
+    }
+    .password-box h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ff4fa3;
+      text-shadow: 0 0 15px #ff4fa3;
+      margin-bottom: 10px;
+    }
+    .password-box input {
+      width: 100%;
+      padding: 14px;
+      margin: 20px 0;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #ff4fa3;
+      border-radius: 60px;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      text-align: center;
+    }
+    .password-box button {
+      background: linear-gradient(135deg, #ff4fa3, #ff1493);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 15px #ff4fa3;
+    }
+    .password-box button:hover { transform: scale(1.05); }
+
+    /* Floating petals & sparkles */
+    .petal, .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .sparkle {
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    /* Page container - cinematic transitions */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 20px;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s ease;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .page-hidden {
+      display: none !important;
+    }
+    .page-transition-out {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    /* Glassmorphism card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 79, 163, 0.4);
+      border-radius: 48px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 40px rgba(255, 79, 163, 0.2);
+      text-align: center;
+    }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+      color: #ff4fa3;
+      text-shadow: 0 0 12px #ff4fa3;
+    }
+    .neon-text {
+      text-shadow: 0 0 8px #ff4fa3, 0 0 18px #ff1493;
+    }
+
+    /* Countdown boxes */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    .time-box {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #ff4fa3;
+      border-radius: 24px;
+      padding: 20px;
+      min-width: 80px;
+      text-align: center;
+      box-shadow: 0 0 15px #ff4fa3;
+    }
+    .time-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff4fa3;
+    }
+    .time-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    /* Gallery swiper */
+    .swiper {
+      width: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 32px;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: #ff4fa3 !important;
+    }
+
+    /* Reasons grid */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .reason-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 20px;
+      border: 1px solid rgba(255,79,163,0.3);
+      transition: 0.3s;
+    }
+    .reason-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px #ff4fa3;
+    }
+
+    /* QR container */
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .bunny {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 15px #ff4fa3);
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-15px); }
+    }
+
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 60px;
+      padding: 8px 20px;
+      display: flex;
+      gap: 20px;
+      z-index: 100;
+      border: 1px solid rgba(255,79,163,0.5);
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+      transition: 0.2s;
+    }
+    .nav-btn.active {
+      color: #ff4fa3;
+      text-shadow: 0 0 8px #ff4fa3;
+    }
+    .progress-indicator {
+      position: fixed;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      z-index: 100;
+    }
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #555;
+      transition: 0.3s;
+    }
+    .progress-dot.active {
+      width: 24px;
+      background: #ff4fa3;
+      box-shadow: 0 0 8px #ff4fa3;
+    }
+
+    /* Music widget */
+    .music-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.8);
+      border-radius: 50px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 200;
+      border: 1px solid #ff4fa3;
+      backdrop-filter: blur(8px);
+    }
+    .music-widget img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .equalizer span {
+      display: inline-block;
+      width: 4px;
+      height: 12px;
+      background: #ff4fa3;
+      margin: 0 2px;
+      animation: equalize 0.8s infinite ease alternate;
+    }
+    @keyframes equalize {
+      0% { height: 8px; }
+      100% { height: 20px; }
+    }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      .glass-card { padding: 30px 20px; }
+      .time-number { font-size: 2rem; }
+      .swiper-slide img { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="glow-orb glow1"></div>
+<div class="glow-orb glow2"></div>
+<div class="glow-orb glow3"></div>
+
+<!-- Password Screen -->
+<div id="passwordScreen">
+  <div class="password-box">
+    <h1>✨ Secret Love Letter ✨</h1>
+    <p>Enter password to unlock the surprise</p>
+    <input type="password" id="passwordInput" placeholder="Password" autocomplete="off">
+    <button onclick="checkPassword()">Unlock ❤️</button>
+  </div>
+</div>
+
+<!-- Music Widget (hidden until unlock) -->
+<div id="musicWidget" class="music-widget" style="display: none;">
+  <img src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="album">
+  <div class="equalizer">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div id="playPauseBtn" style="cursor:pointer;">▶️</div>
+</div>
+
+<!-- Dynamic Pages will be injected via JS but we can create containers -->
+<main id="app"></main>
+
+<script>
+  // ---------- PAGES DATA ----------
+  const pages = [
+    { id: 'hero', title: 'Hero' },
+    { id: 'countdown', title: 'Countdown' },
+    { id: 'music', title: 'Music' },
+    { id: 'gallery', title: 'Gallery' },
+    { id: 'loveletter', title: 'Love Letter' },
+    { id: 'reasons', title: 'Reasons' },
+    { id: 'qr', title: 'QR Surprise' },
+    { id: 'final', title: 'Final' }
+  ];
+  let currentIndex = 0;
+  let player = null; // YouTube player
+  let swiperGallery = null;
+
+  // Target birthday date (contoh: 25 Mei 2026, sesuaikan)
+  const birthdayDate = new Date(2026, 4, 25, 0, 0, 0); // bulan 0-index, 4 = Mei
+
+  // HTML templates for each page
+  const templates = {
+    hero: `
+      <div class="glass-card">
+        <h1 class="neon-text" style="font-size: 3rem;">Happy Birthday<br>Mila Salsa ❤️</h1>
+        <p style="margin: 20px 0; font-size: 1.2rem;">You are my today and all of my tomorrows.</p>
+        <div style="margin: 30px auto; width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 3px solid #ff4fa3; box-shadow: 0 0 30px #ff4fa3;">
+          <img src="https://placehold.co/400x400/ff4fa3/ffffff?text=Couple+Photo" style="width:100%; height:100%; object-fit:cover;" alt="couple">
+        </div>
+        <button class="next-btn" style="background: linear-gradient(135deg,#ff4fa3,#ff1493); border:none; padding:12px 32px; border-radius:40px; color:white; font-weight:bold; margin-top:20px; cursor:pointer;">Open Surprise 💌</button>
+      </div>
+    `,
+    countdown: `
+      <div class="glass-card">
+        <h2 class="neon-text">✨ Countdown to Your Birthday ✨</h2>
+        <div class="countdown-container" id="countdownBox">
+          <div class="time-box"><div class="time-number" id="days">0</div><div class="time-label">Hari</div></div>
+          <div class="time-box"><div class="time-number" id="hours">0</div><div class="time-label">Jam</div></div>
+          <div class="time-box"><div class="time-number" id="minutes">0</div><div class="time-label">Menit</div></div>
+          <div class="time-box"><div class="time-number" id="seconds">0</div><div class="time-label">Detik</div></div>
+        </div>
+        <p style="margin-top: 20px;">Another year of beautiful life. Another year of loving you.</p>
+      </div>
+    `,
+    music: `
+      <div class="glass-card">
+        <h2 class="neon-text">🎵 Our Song 🎵</h2>
+        <div style="margin: 20px 0;">
+          <img src="https://placehold.co/300x300/ff4fa3/ffffff?text=Perfect+Ed+Sheeran" style="width:180px; border-radius: 24px; box-shadow:0 0 20px #ff4fa3;">
+        </div>
+        <h3>Perfect - Ed Sheeran</h3>
+        <div id="youtube-placeholder" style="margin: 20px 0;"></div>
+        <div class="progress-bar" style="width:100%; height:4px; background:#333; border-radius:4px; margin:10px 0;"><div id="musicProgress" style="width:0%; height:100%; background:#ff4fa3;"></div></div>
+        <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
+          <button id="playYTBtn" style="background:#ff4fa3; border:none; padding:8px 20px; border-radius:30px;">▶️ Play</button>
+        </div>
+      </div>
+    `,
+    gallery: `
+      <div class="glass-card" style="padding: 20px;">
+        <h2 class="neon-text">📸 Beautiful Memories</h2>
+        <div class="swiper mySwiper" style="margin-top: 20px;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="https://placehold.co/800x600/ff4fa3/ffffff?text=Memory+1" alt="memori1"></div>
+            <div class="swiper-slide"><img src="https://placehold.co/800x600/ff1493/ffffff?text=Memory+2" alt="memori2"></div>
+            <div class="swiper-slide"><img src="https://placehold.co/800x600/b87cff/ffffff?text=Memory+3" alt="memori3"></div>
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    `,
+    loveletter: `
+      <div class="glass-card">
+        <h2 class="neon-text">💌 A Letter For You</h2>
+        <div id="envelope" style="cursor:pointer; margin:20px auto; width:120px; height:90px; background:#ff4fa3; border-radius:10px; position:relative; box-shadow:0 0 20px #ff4fa3;">
+          <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#ff1493; clip-path: polygon(0 0, 100% 0, 50% 100%);"></div>
+          <div style="position:absolute; bottom:10px; left:0; right:0; text-align:center; color:white;">✉️</div>
+        </div>
+        <div id="letterContent" style="display:none; background:white; color:#222; border-radius:20px; padding:20px; text-align:left; max-height:300px; overflow-y:auto;">
+          <p>💖 Untuk Mila Salsa tercinta,<br><br>
+          Selamat ulang tahun sayang! 🎂 Kamu adalah hadiah terindah dalam hidupku. Setiap hari bersamamu adalah petualangan yang tak pernah membosankan. Senyummu adalah sinar mentari yang menerangi hariku.<br><br>
+          Aku bersyukur memiliki seseorang sepertimu yang selalu sabar, baik, dan penuh cinta. Semoga di usia baru ini semua impianmu tercapai, dan aku akan selalu ada di sampingmu, mendukungmu, mencintaimu.<br><br>
+          Terima kasih telah menjadi rumahku. I love you more than words can say. ❤️<br><br>
+          Forever yours,<br> [Your Name]</p>
+        </div>
+      </div>
+    `,
+    reasons: `
+      <div class="glass-card">
+        <h2 class="neon-text">💖 Reasons I Love You</h2>
+        <div class="reasons-grid">
+          <div class="reason-card">🌸 Kamu selalu ada untuk aku</div>
+          <div class="reason-card">😊 Kamu bikin aku bahagia</div>
+          <div class="reason-card">👸 Kamu cantik luar dalam</div>
+          <div class="reason-card">🏠 Kamu rumah terbaikku</div>
+          <div class="reason-card">👭 Kamu sahabat terbaikku</div>
+          <div class="reason-card">🌟 Kamu membuat hidupku berarti</div>
+          <div class="reason-card">💪 Kamu inspirasiku</div>
+          <div class="reason-card">💭 Kamu selalu di pikiranku</div>
+        </div>
+      </div>
+    `,
+    qr: `
+      <div class="glass-card">
+        <h2 class="neon-text">✨ Secret QR Surprise ✨</h2>
+        <div id="qrcode" style="display:flex; justify-content:center; margin:20px;"></div>
+        <div class="bunny">🐇💕</div>
+        <p style="margin-top:15px;">Scan QR untuk hidden message spesial!</p>
+      </div>
+    `,
+    final: `
+      <div class="glass-card">
+        <h2 class="neon-text">Thank you for being born<br>and being part of my life ❤️</h2>
+        <div style="margin:30px 0;">
+          <div class="bunny">🐰✨💖</div>
+        </div>
+        <button id="replayBtn" style="background: linear-gradient(135deg,#ff4fa3,#ff1493); border:none; padding:12px 32px; border-radius:40px; color:white; cursor:pointer;">Replay Our Story 🔄</button>
+      </div>
+    `
+  };
+
+  // Render page
+  function renderPage(index) {
+    const app = document.getElementById('app');
+    if (!app) return;
+    const pageId = pages[index].id;
+    const html = templates[pageId];
+    app.innerHTML = html;
+    
+    // tambahan event listeners khusus
+    if (pageId === 'hero') {
+      const nextBtn = document.querySelector('.next-btn');
+      if(nextBtn) nextBtn.onclick = () => changePage(1);
+    }
+    if (pageId === 'countdown') {
+      startCountdown();
+    }
+    if (pageId === 'music') {
+      loadYouTubePlayer();
+      const playBtn = document.getElementById('playYTBtn');
+      if(playBtn) playBtn.onclick = () => { if(player) player.playVideo(); };
+    }
+    if (pageId === 'gallery') {
+      if (swiperGallery) swiperGallery.destroy(true, true);
+      swiperGallery = new Swiper('.mySwiper', {
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        loop: true,
+        effect: 'slide'
+      });
+    }
+    if (pageId === 'loveletter') {
+      const envelope = document.getElementById('envelope');
+      const letter = document.getElementById('letterContent');
+      if(envelope) envelope.onclick = () => {
+        envelope.style.display = 'none';
+        letter.style.display = 'block';
+        letter.style.animation = 'fadeUp 0.5s ease';
+      };
+    }
+    if (pageId === 'qr') {
+      const qrDiv = document.getElementById('qrcode');
+      if(qrDiv) new QRCode(qrDiv, { text: 'https://example.com/surprise-mila', width: 180, height: 180, colorDark: '#ff4fa3', colorLight: '#ffffff' });
+    }
+    if (pageId === 'final') {
+      document.getElementById('replayBtn')?.addEventListener('click', () => {
+        currentIndex = 0;
+        renderPage(0);
+        updateNavAndProgress();
+      });
+    }
+    updateNavAndProgress();
+  }
+
+  // Countdown logic
+  let countdownInterval;
+  function startCountdown() {
+    if(countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      const now = new Date();
+      const diff = birthdayDate - now;
+      if(diff <= 0) {
+        document.getElementById('days').innerText = '0';
+        document.getElementById('hours').innerText = '0';
+        document.getElementById('minutes').innerText = '0';
+        document.getElementById('seconds').innerText = '0';
+        clearInterval(countdownInterval);
+      } else {
+        const days = Math.floor(diff / (1000*60*60*24));
+        const hours = Math.floor((diff % (86400000)) / (3600000));
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        document.getElementById('days').innerText = days;
+        document.getElementById('hours').innerText = hours;
+        document.getElementById('minutes').innerText = mins;
+        document.getElementById('seconds').innerText = secs;
+      }
+    }, 1000);
+  }
+
+  // YouTube API
+  function loadYouTubePlayer() {
+    if(typeof YT !== 'undefined' && YT.Player) {
+      player = new YT.Player('youtube-placeholder', {
+        height: '0',
+        width: '0',
+        videoId: '2Vv-BfVoq4g',
+        playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: '2Vv-BfVoq4g' },
+        events: {
+          onStateChange: function(e) {
+            if(e.data === YT.PlayerState.PLAYING) {
+              document.getElementById('playPauseBtn') && (document.getElementById('playPauseBtn').innerHTML = '⏸️');
+            } else {
+              document.getElementById('playPauseBtn') && (document.getElementById('playPauseBtn').innerHTML = '▶️');
+            }
+          }
+        }
+      });
+    } else {
+      setTimeout(loadYouTubePlayer, 500);
+    }
+  }
+
+  // Floating petals and sparkles
+  function createFloatingElements() {
+    setInterval(() => {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.innerHTML = '🌸';
+      petal.style.left = Math.random() * 100 + '%';
+      petal.style.fontSize = (15 + Math.random() * 20) + 'px';
+      petal.style.animation = `fall ${5 + Math.random() * 6}s linear forwards`;
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 10000);
+    }, 300);
+    setInterval(() => {
+      const spark = document.createElement('div');
+      spark.className = 'sparkle';
+      spark.innerHTML = '✨';
+      spark.style.left = Math.random() * 100 + '%';
+      spark.style.top = Math.random() * 100 + '%';
+      spark.style.fontSize = (10 + Math.random() * 15) + 'px';
+      spark.style.opacity = Math.random() * 0.6 + 0.2;
+      spark.style.animation = `twinkle ${1 + Math.random() * 2}s infinite`;
+      document.body.appendChild(spark);
+      setTimeout(() => spark.remove(), 2000);
+    }, 800);
+  }
+
+  // Bottom navigation & progress
+  function updateNavAndProgress() {
+    let navDiv = document.querySelector('.bottom-nav');
+    if(!navDiv) {
+      navDiv = document.createElement('div');
+      navDiv.className = 'bottom-nav';
+      document.body.appendChild(navDiv);
+      const progressDiv = document.createElement('div');
+      progressDiv.className = 'progress-indicator';
+      document.body.appendChild(progressDiv);
+    }
+    const nav = document.querySelector('.bottom-nav');
+    const prog = document.querySelector('.progress-indicator');
+    nav.innerHTML = '';
+    prog.innerHTML = '';
+    pages.forEach((p, idx) => {
+      const btn = document.createElement('button');
+      btn.innerText = idx === 0 ? '🏠' : (idx === 1 ? '⏰' : (idx === 2 ? '🎵' : (idx === 3 ? '📸' : (idx === 4 ? '💌' : (idx === 5 ? '💖' : (idx === 6 ? '🔮' : '✨'))))));
+      btn.className = 'nav-btn';
+      if(idx === currentIndex) btn.classList.add('active');
+      btn.onclick = () => changePage(idx);
+      nav.appendChild(btn);
+      
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      if(idx === currentIndex) dot.classList.add('active');
+      prog.appendChild(dot);
+    });
+    // back next buttons
+    let backNext = document.querySelector('.backnext-container');
+    if(!backNext) {
+      backNext = document.createElement('div');
+      backNext.style.position = 'fixed';
+      backNext.style.bottom = '100px';
+      backNext.style.left = '0';
+      backNext.style.right = '0';
+      backNext.style.display = 'flex';
+      backNext.style.justifyContent = 'space-between';
+      backNext.style.padding = '0 20px';
+      backNext.style.zIndex = '100';
+      backNext.className = 'backnext-container';
+      document.body.appendChild(backNext);
+    }
+    backNext.innerHTML = `
+      <button id="prevBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex === 0 ? 'opacity:0.3; pointer-events:none' : ''}">← Back</button>
+      <button id="nextBtn" style="background:rgba(0,0,0,0.6); border:1px solid #ff4fa3; padding:8px 20px; border-radius:40px; color:white; ${currentIndex === pages.length-1 ? 'opacity:0.3; pointer-events:none' : ''}">Next ❤️</button>
+    `;
+    document.getElementById('prevBtn')?.addEventListener('click', () => { if(currentIndex > 0) changePage(currentIndex-1); });
+    document.getElementById('nextBtn')?.addEventListener('click', () => { if(currentIndex < pages.length-1) changePage(currentIndex+1); });
+  }
+
+  function changePage(newIndex) {
+    if(newIndex === currentIndex) return;
+    const app = document.getElementById('app');
+    app.style.opacity = '0';
+    app.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      currentIndex = newIndex;
+      renderPage(currentIndex);
+      app.style.opacity = '1';
+      app.style.transform = 'translateY(0)';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      updateNavAndProgress();
+    }, 300);
+  }
+
+  // Password check
+  function checkPassword() {
+    const pwd = document.getElementById('passwordInput').value;
+    if(pwd === 'mila123') {
+      document.getElementById('passwordScreen').style.display = 'none';
+      document.getElementById('musicWidget').style.display = 'flex';
+      renderPage(0);
+      createFloatingElements();
+      // init music widget control
+      const playPause = document.getElementById('playPauseBtn');
+      if(playPause) playPause.onclick = () => {
+        if(player) {
+          if(player.getPlayerState() === 1) player.pauseVideo();
+          else player.playVideo();
+        }
+      };
+    } else {
+      alert('Password salah 💔 Coba lagi');
+    }
+  }
+
+  window.checkPassword = checkPassword;
+  window.changePage = changePage;
+
+  // auto load youtube api
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  window.onYouTubeIframeAPIReady = function() {
+    if(document.getElementById('music') && document.getElementById('youtube-placeholder')) loadYouTubePlayer();
+  };
+</script>
+</body>
+</html>
